@@ -3,11 +3,16 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-const mentoringRoutes = require('./routes/mentoringRoutes');
 
+const cors = require('cors');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
+
+app.use(cors({
+    origin: 'http://localhost:3000',  // 요청을 허용할 도메인
+    credentials: true  // 쿠키 전송을 허용
+}));
 
 // const connectDB = require('./configs/mongodb');
 const db = process.env.MONGODB_URI;
@@ -20,7 +25,9 @@ mongoose.connect(db)
 );
 
 //라우트 가져오기
+const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+const mentoringRoutes = require('./routes/mentoringRoutes');
 
 
 // 쿠키, 세션 설정
@@ -29,9 +36,13 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+    }
 }));
 
-const { isLoggedIn } = require('./middlewares/middleware');
 // passport 설정
 const passportConfig = require('./passport');
 passportConfig();
@@ -48,6 +59,7 @@ app.get('/', (req, res)=> {
 })
 
 //라우트 정의
+app.use('/api/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/api/mentoring', mentoringRoutes);
 

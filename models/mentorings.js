@@ -11,11 +11,11 @@ const scheduleSchema = new mongoose.Schema({
 
 const mentoringSchema = new mongoose.Schema({
     mentoring_id: { type: mongoose.Schema.Types.ObjectId, default: new mongoose.Types.ObjectId() },
-    mentor_id :{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, 
+    mentor_id :{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
     title : { type: String, maxlength:100},
     contents : { type: String, required: true }, //멘토링신청내용
     supplies : { type: String, minlength:50},
-    topics : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Topic', required:true }], 
+    topics : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Topic' }], 
     available_date : { type: [Date], required:true},
     token : {type: Number, required:true},
     schedule : [scheduleSchema]

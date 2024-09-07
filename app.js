@@ -8,7 +8,6 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 
-// const connectDB = require('./configs/mongodb');
 const db = process.env.MONGODB_URI;
 mongoose.connect(db)
     .then(()=>{
@@ -39,7 +38,6 @@ passportConfig();
 app.use(passport.initialize());
 app.use(passport.session());
 
-let collections;
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 

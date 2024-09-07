@@ -10,6 +10,13 @@ router.get('/kakao', passport.authenticate('kakao'));
 router.get('/kakao/callback', passport.authenticate('kakao', {
     failureRedirect: '/',  // 로그인 실패 시
 }), (req, res) => {
+    const { user, accessToken } = req.user;
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,  // JavaScript로 접근 불가
+      secure: process.env.NODE_ENV === 'production',  // HTTPS에서만 전송
+      maxAge: 60 * 60 * 1000  // 1시간 유효
+    });
     res.redirect('/');  // 로그인 성공 시
 });
 
@@ -22,6 +29,7 @@ router.get('/logout', isLoggedIn, (req, res, next) => {
         } else {
             req.session.destroy(() => {
                 res.clearCookie('connect.sid');
+                res.clearCookie('accessToken');
                 res.redirect('/');
             })
         }

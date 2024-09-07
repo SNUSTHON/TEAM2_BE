@@ -26,8 +26,8 @@ module.exports = () => {
                     username: profile.displayName,
                     email: profile._json && profile._json.kakao_account.email,
                     token: 0,
-                    temperature: 36.5,
-                    user_img: profile._json.properties.profile_image || null,
+                    temperature: 100,
+                    user_img: profile._json.properties.profile_image,
                 });
                 await newUser.save();
                 done(null, {user: newUser, accessToken});

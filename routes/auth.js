@@ -1,6 +1,7 @@
 // 로그인, 로그아웃을 위한 라우터
 const express = require('express');
 const passport = require('passport');
+const { isLoggedIn } = require('../middlewares/middleware');
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 
 
 // 로그아웃
-router.get('/logout', (req, res, next) => {
+router.get('/logout', isLoggedIn, (req, res, next) => {
     req.logout(err => {
         if (err) {
             return next(err);

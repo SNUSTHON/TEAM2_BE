@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+
 const app = express();
 
 require('dotenv').config();
@@ -10,10 +11,8 @@ const port = process.env.PORT || 3000;
 
 // const connectDB = require('./configs/mongodb');
 const db = process.env.MONGODB_URI;
-mongoose.connect(db, {
-        useNewUrlParser: true,
-        useUnifiedTopology:true,
-    }).then(()=>{
+mongoose.connect(db)
+    .then(()=>{
         console.log("conected to mongodb");
     }).catch(error => {
         console.log("mongo error",error);
@@ -32,6 +31,7 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+const { isLoggedIn } = require('./middlewares/middleware');
 // passport 설정
 const passportConfig = require('./passport');
 passportConfig();

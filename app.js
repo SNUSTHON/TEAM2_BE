@@ -6,7 +6,7 @@ const passport = require('passport');
 const app = express();
 
 require('dotenv').config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // const connectDB = require('./configs/mongodb');
 const db = process.env.MONGODB_URI;

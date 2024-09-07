@@ -4,15 +4,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 
-const cors = require('cors');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
-
-app.use(cors({
-    origin: 'http://localhost:3000',  // 요청을 허용할 도메인
-    credentials: true  // 쿠키 전송을 허용
-}));
 
 // const connectDB = require('./configs/mongodb');
 const db = process.env.MONGODB_URI;
@@ -36,11 +30,6 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
-    }
 }));
 
 // passport 설정

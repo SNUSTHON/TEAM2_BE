@@ -14,10 +14,9 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,  // JavaScript로 접근 불가
         secure: process.env.NODE_ENV === 'production',  // HTTPS에서만 전송
-        sameSite: 'None',
         maxAge: 60 * 60 * 1000  // 1시간 유효
     });
-    res.redirect('http://localhost:3000/');  // 로그인 성공 시
+    res.redirect('/');  // 로그인 성공 시
 });
 
 

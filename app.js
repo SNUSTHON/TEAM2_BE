@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+const mentoringRoutes = require('./routes/mentoringRoutes');
 
 const app = express();
-
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 
@@ -49,6 +49,7 @@ app.get('/', (req, res)=> {
 
 //라우트 정의
 app.use('/auth', authRouter);
+app.use('/api/mentoring', mentoringRoutes);
 
 app.listen(port, async() => {
     console.log(`Server running at http://localhost:${port}`);

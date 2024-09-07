@@ -10,7 +10,6 @@ module.exports = () => {
         clientID: process.env.KAKAO_ID,
     }, 
     async (accessToken, refreshToken, profile, done) => {
-        // console.log(profile);
         try {
             const exUser = await User.findOne({
                 email: profile._json.kakao_account.email // 이메일로 중복 확인
@@ -19,7 +18,7 @@ module.exports = () => {
             if (exUser) {
                 // 이전에 가입한 유저
                 console.log('이전에 가입한 유저입니다.');
-                done(null, exUser);
+                done(null, {user: exUser, accessToken});
             } else {
                 // 새로운 유저
                 console.log('새로운 유저입니다.');
@@ -31,7 +30,7 @@ module.exports = () => {
                     user_img: profile._json.properties.profile_image || null,
                 });
                 await newUser.save();
-                done(null, newUser);
+                done(null, {user: newUser, accessToken});
             }
         } catch (error) {
             console.log(error);

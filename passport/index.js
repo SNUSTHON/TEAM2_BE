@@ -5,14 +5,14 @@ const User = require('../models/users').User;
 
 module.exports = () => {
 
-    passport.serializeUser((users, done) => {
-        console.log(users.user_id);
-        done(null, users.user_id);
+    passport.serializeUser((user, done) => {
+        done(null, { id: user._id, accessToken: user.accessToken });
     });
 
-    passport.deserializeUser((id, done) => {
-        User.findOne({ where: {user_id : id} })
-            .then(users => done(null, users))
+    passport.deserializeUser((sessionData, done) => {
+        const { id, accessToken } = sessionData;
+        User.findById(id)
+            .then(user => done(null, { user, accessToken }))
             .catch(err => done(err));
     });
 
